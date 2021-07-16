@@ -1,12 +1,3 @@
-#!/usr/bin/env xcrun -sdk macosx swift
-
-//
-//  x2.swift
-//
-//
-//  Created by john on 20/1/2020.
-//
-
 import Foundation
 import ApplicationServices
 import CoreVideo
@@ -159,7 +150,7 @@ struct DisplayUserSetting {
 class Screens {
   // assume at most 8 display connected
   static let MAX_DISPLAYS = 8
-  var maxDisplays = MAX_DISPLAYS
+  let maxDisplays = MAX_DISPLAYS
   // actual number of display
   var displayCount: Int = 0
   var dm = [DisplayManager]()
@@ -167,14 +158,14 @@ class Screens {
   init() {
     // actual number of display
     var displayCount32: UInt32 = 0
-    var displayIDs = [CGDirectDisplayID](arrayLiteral: 0)
+    var displayIDs = [CGDirectDisplayID](repeating: 0, count: maxDisplays)
 
     guard CGGetOnlineDisplayList(UInt32(maxDisplays), &displayIDs, &displayCount32) == .success else {
       print("Error on getting online display List.")
       return
     }
     displayCount = Int(displayCount32)
-    dm = displayIDs.map { DisplayManager($0) }
+    dm = displayIDs[0...displayCount - 1].map { DisplayManager($0) }
   }
 
   // print a list of all displays
