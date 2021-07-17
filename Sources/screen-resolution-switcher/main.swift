@@ -41,11 +41,9 @@ class DisplayManager {
   }
 
   func printFormatForAllModes() {
-    var i = 0
-    displayInfo.forEach { di in
+    for (i, di) in displayInfo.enumerated() {
       let bool = i == modeIndex
-      print(_format(di, leadingString: bool ? "\u{001B}[0;33m⮕" : " ", trailingString: bool ? "\u{001B}[0;49m" : ""))
-      i += 1
+      print(i, _format(di, leadingString: bool ? "\u{001B}[0;33m⮕" : " ", trailingString: bool ? "\u{001B}[0;49m" : ""))
     }
   }
 
