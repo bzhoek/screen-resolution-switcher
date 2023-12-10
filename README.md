@@ -1,3 +1,4 @@
+
 # Screen resolution switcher (in Swift)
 This is a simple (mac) screen resolution & dark-mode switcher written in Swift.
 

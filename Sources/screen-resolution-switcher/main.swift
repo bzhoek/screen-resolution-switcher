@@ -22,6 +22,7 @@ class DisplayManager {
     let mode = CGDisplayCopyDisplayMode(displayID)!
 
     modeIndex = modes.firstIndex(of: mode)!
+    print("\(modeIndex)")
   }
 
   private func _format(_ di: DisplayInfo, leadingString: String, trailingString: String) -> String {
@@ -61,6 +62,10 @@ class DisplayManager {
       let afterCheck = CGCompleteDisplayConfiguration(config, CGConfigureOption.permanently)
       if afterCheck != .success { CGCancelDisplayConfiguration(config) }
     }
+  }
+
+  func set(with index: Int) {
+    if index != modeIndex { _set(index) }
   }
 
   func set(with setting: DisplayUserSetting) {
@@ -178,6 +183,10 @@ class Screens {
     dm[displayIndex].printFormatForAllModes()
   }
 
+  func set(with index: Int) {
+    dm[0].set(with: index)
+  }
+
   func set(with setting: DisplayUserSetting) {
     dm[setting.displayIndex].set(with: setting)
   }
@@ -259,6 +268,8 @@ func main() {
     } else {
       print("Display index not found. List all available displays by:\n    screen-resolution-switcher -l")
     }
+  case "-i", "--index":
+    screens.set(with: Int(arguments[2])!)
   case "-s", "--set", "set", "-r", "--set-retina", "retina":
     screens.set(with: DisplayUserSetting(arguments))
   case "-d", "--toggle-dark-mode":
